@@ -150,44 +150,113 @@ public class AddressBookOperation implements Operation
 		
 		Person person = new Person();
 		
-		System.out.println("Enter the First name");
-		String firstname = sc.nextLine();
-		person.setFirstname(firstname);
-
-		System.out.println("Enter the Last name");
-		String lastname = sc.nextLine();
-		person.setLastname(lastname);
+		int firstNameCheck=0;
+		while(firstNameCheck==0)
+		{
+			System.out.println("Enter the First name");
+			String firstname = sc.nextLine();
+			if(Pattern.matches("[a-zA-Z]{3,}", firstname))
+			{
+				person.setFirstname(firstname);
+				firstNameCheck=1;
+			}
+			else
+			{
+				System.out.println("You didn't entered valid First Name");
+				System.out.println("Please enter valid First Name");
+			}
+		}
+		
+		int lastNameCheck=0;
+		while(lastNameCheck==0)
+		{
+			System.out.println("Enter the Last name");
+			String lastname = sc.nextLine();
+			if(Pattern.matches("[a-zA-Z]{3,}", lastname))
+			{
+				person.setFirstname(lastname);
+				lastNameCheck=1;
+			}
+			else
+			{
+				System.out.println("You didn't entered valid Last Name");
+				System.out.println("Please enter valid Last Name");
+			}
+		}
 
 		System.out.println("Enter your Address");
 		String address = sc.nextLine();
 		person.setAddress(address);
-
-		System.out.println("Enter your City");
-		String city = sc.nextLine();
-		person.setCity(city);
-
-		System.out.println("Enter your State");
-		String state = sc.nextLine();
-		person.setState(state);
-
-		System.out.println("Enter your Zip Code");
-		String zipcode = sc.nextLine();
-		person.setZip(zipcode);
-
-		System.out.println("Enter your Phone Number");
-		String phone = sc.nextLine();
-		person.setPhone(phone);
 		
-		List<Person> list = map.get(addressKey);
-		
-		for (int i = 0; i < list.size(); i++) 
+		int cityCheck=0;
+		while(cityCheck==0)
 		{
-			if(list.get(i).getPhone().equals(phone))
+			System.out.println("Enter your City");
+			String city = sc.nextLine();
+			if(Pattern.matches("([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)", city))
 			{
-				System.out.println("Phone number already exist");
-				return;
+				person.setCity(city);
+				cityCheck=1;
+			}
+			else
+			{
+				System.out.println("You didn't entered valid City");
+				System.out.println("Please enter valid City");
 			}
 		}
+
+		int stateCheck=0;
+		while(stateCheck==0)
+		{
+			System.out.println("Enter your State");
+			String state = sc.nextLine();
+			if(Pattern.matches("([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)", state))
+			{
+				person.setState(state);
+				stateCheck=1;
+			}
+			else
+			{
+				System.out.println("You didn't entered valid State");
+				System.out.println("Please enter valid State");
+			}
+		}
+
+		int zipCodeCheck=0;
+		while (zipCodeCheck==0)
+		{
+			System.out.println("Enter your Zip Code");
+			String zipcode = sc.nextLine();
+			if(Pattern.matches("[0-9]{6}", zipcode))
+			{
+				person.setZip(zipcode);
+				zipCodeCheck=1;
+			}
+			else
+			{
+				System.out.println("You didn't entered valid zipcode");
+				System.out.println("Please enter valid zip code");
+			}
+		}
+
+		int phoneNumberCheck=0;
+		while(phoneNumberCheck==0)
+		{
+			System.out.println("Enter your Phone Number");
+			String phone = sc.nextLine();
+			if(Pattern.matches("[0-9]{8,11}", phone))
+			{
+				person.setPhone(phone);
+				phoneNumberCheck=1;
+			}
+			else
+			{
+				System.out.println("You didn't entered valid phone");
+				System.out.println("Please enter valid phone");
+			}	
+		}
+		
+		List<Person> list = map.get(addressKey);
 		
 		list.add(person);
 		map.put(addressKey, list);
@@ -260,30 +329,82 @@ public class AddressBookOperation implements Operation
 							System.out.println("Address Updated");
 							break;
 						case 2:
-							System.out.println("Enter your City ");
-							String city = sc.nextLine();
-							persondetails.setCity(city);
+							int cityCheck=0;
+							while(cityCheck==0)
+							{
+								System.out.println("Enter your City");
+								String city = sc.nextLine();
+								if(Pattern.matches("([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)", city))
+								{
+									persondetails.setCity(city);
+									cityCheck=1;
+								}
+								else
+								{
+									System.out.println("You didn't entered valid City");
+									System.out.println("Please enter valid City");
+								}
+							}
 							fileWriter();
 							System.out.println("City Updated");
 							break;
 						case 3:
-							System.out.println("Enter your State");
-							String state = sc.next();
-							persondetails.setState(state);
+							int stateCheck=0;
+							while(stateCheck==0)
+							{
+								System.out.println("Enter your State");
+								String state = sc.nextLine();
+								if(Pattern.matches("([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)", state))
+								{
+									persondetails.setState(state);
+									stateCheck=1;
+								}
+								else
+								{
+									System.out.println("You didn't entered valid State");
+									System.out.println("Please enter valid State");
+								}
+							}
 							fileWriter();
 							System.out.println("State Updated");
 							break;
 						case 4:
-							System.out.println("Enter Your Zipcode");
-							String zipcode = sc.next();
-							persondetails.setZip(zipcode);
+							int zipCodeCheck=0;
+							while (zipCodeCheck==0)
+							{
+								System.out.println("Enter your Zip Code");
+								String zipcode = sc.nextLine();
+								if(Pattern.matches("[0-9]{6}", zipcode))
+								{
+									persondetails.setZip(zipcode);
+									zipCodeCheck=1;
+								}
+								else
+								{
+									System.out.println("You didn't entered valid zipcode");
+									System.out.println("Please enter valid zip code");
+								}
+							}
 							fileWriter();
 							System.out.println("Zipcode Updated");
 							break;
 						case 5:
-							System.out.println("Enter Phone Number");
-							String phone1 = sc.next();
-							persondetails.setPhone(phone1);
+							int phoneNumberCheck=0;
+							while(phoneNumberCheck==0)
+							{
+								System.out.println("Enter your Phone Number");
+								String phone1 = sc.nextLine();
+								if(Pattern.matches("[0-9]{8,11}", phone1))
+								{
+									persondetails.setPhone(phone1);
+									phoneNumberCheck=1;
+								}
+								else
+								{
+									System.out.println("You didn't entered valid phone");
+									System.out.println("Please enter valid phone");
+								}
+							}
 							fileWriter();
 							System.out.println("Phone Number Updated");
 							break;
