@@ -182,7 +182,7 @@ public class AddressBookOperation implements Operation
 			String lastname = sc.nextLine();
 			if(Pattern.matches("[a-zA-Z]{3,}", lastname))
 			{
-				person.setFirstname(lastname);
+				person.setLastname(lastname);
 				lastNameCheck=1;
 			}
 			else
