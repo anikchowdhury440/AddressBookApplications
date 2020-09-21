@@ -16,6 +16,7 @@ interface Operation
 	void deletePerson();
 	void sortByName();
 	void sortByZip();
+	void deleteAddressBook();
 }
 
 public class AddressBookOperation implements Operation 
@@ -294,11 +295,19 @@ public class AddressBookOperation implements Operation
 		List<Person> list = map.get(addressKey);
 
 		System.out.println("FIRSTNAME \t LASTNAME \t\tADDRESS \tCITY \t\t STATE \t\t\t ZIP \t\t PHONE \n");
-		for (int i = 0; i < list.size(); i++) 
+
+		if(list.size()==0)
 		{
-			System.out.println(list.get(i));
+			System.out.println("No Contact Found");
+			return;
 		}
-					
+		else
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				System.out.println(list.get(i));
+			}
+		}
 	}
 	
 	// edit person details
@@ -311,10 +320,19 @@ public class AddressBookOperation implements Operation
 		List<Person> list = map.get(addressKey);
 
 		System.out.println("FIRSTNAME \t LASTNAME \t\tADDRESS \tCITY \t\t STATE \t\t\t ZIP \t\t PHONE \n");
-		for (int i = 0; i < list.size(); i++) 
-		{
-			System.out.println(list.get(i));
-		}
+
+		if(list.size()==0)
+                {
+                        System.out.println("No Contact Found");
+                        return;
+                }
+                else
+                {
+                        for (int i = 0; i < list.size(); i++)
+                        {
+                                System.out.println(list.get(i));
+                        }
+                }
 			
 		int ch = 0, choice, contactFound=0;
 		System.out.println("Enter the phone number for updation");
@@ -504,10 +522,19 @@ public class AddressBookOperation implements Operation
 		List<Person> list = map.get(addressKey);
 		
 		System.out.println("FIRSTNAME \t LASTNAME \t\tADDRESS \tCITY \t\t STATE \t\t\t ZIP \t\t PHONE \n");
-		for (int i = 0; i < list.size(); i++) 
-		{
-			System.out.println(list.get(i));
-		}
+
+		if(list.size()==0)
+                {
+                        System.out.println("No Contact Found");
+                        return;
+                }
+                else
+                {
+                        for (int i = 0; i < list.size(); i++)
+                        {
+                                System.out.println(list.get(i));
+                        }
+                }
 			
 		System.out.println("Enter the phone number do you want to delete: ");
 		String phone = sc.nextLine();
@@ -542,15 +569,23 @@ public class AddressBookOperation implements Operation
 		selectAddressBook();
 		
 		List<Person> list = map.get(addressKey);
-		Collections.sort(list, Person.sortbyname);
-		fileWriter();
 		
 		System.out.println("FIRSTNAME \t LASTNAME \t\tADDRESS \tCITY \t\t STATE \t\t\t ZIP \t\t PHONE \n");
-		for (int i = 0; i < list.size(); i++) 
+		if(list.size()==0)
 		{
-			System.out.println(list.get(i));
+			System.out.println("No Contact Found");
+			return;
 		}
+		else
+		{
+			Collections.sort(list, Person.sortbyname);
+			fileWriter();
 		
+			for (int i = 0; i < list.size(); i++) 
+			{
+				System.out.println(list.get(i));
+			}
+		}		
 	}
 	
 	public void sortByZip()
@@ -560,15 +595,72 @@ public class AddressBookOperation implements Operation
 		selectAddressBook();
 		
 		List<Person> list = map.get(addressKey);
-		Collections.sort(list, Person.sortbyzip);
-		fileWriter();
-		
+
 		System.out.println("FIRSTNAME \t LASTNAME \t\tADDRESS \tCITY \t\t STATE \t\t\t ZIP \t\t PHONE \n");
-		for (int i = 0; i < list.size(); i++) 
+		if(list.size()==0)
 		{
-			System.out.println(list.get(i));
+			System.out.println("No Contact Found");
+			return;
+		}
+		else
+		{
+			Collections.sort(list, Person.sortbyzip);
+			fileWriter();
+		
+			for (int i = 0; i < list.size(); i++) 
+			{
+				System.out.println(list.get(i));
+			}
+		}		
+	}
+	
+	public void deleteAddressBook()
+	{
+		fileReader();
+		if(countAddressbook==0)
+		{
+			System.out.println("There is No Address Book present.");
+			return;
+		}
+		getAddressBook();
+
+		int correctChoice=0;
+		
+		while ( correctChoice==0 ) 
+		{
+			System.out.println("Please Select address book do you want to delete");
+			int select = sc.nextInt();
+			sc.nextLine();
+			try
+			{
+				addressKey = addressBook[select-1];
+			}
+			catch(Exception e )
+			{
+				System.out.println("Please select correct addressbook ");
+				continue;
+			}
+			
+			if (map.get(addressKey)!=null)
+			{
+				map.remove(addressKey);
+				for (int i= select-1;i<countAddressbook;i++)
+				{
+					addressBook[i]=addressBook[i+1];
+				}
+				countAddressbook--;
+				System.out.println("Address Book Deleted");
+				fileWriter();
+				correctChoice=1;
+			}
+		
+			else
+			{
+				System.out.println("Please select correct addressbook");
+			
+			}
+			
 		}
 		
 	}
-	
 }
