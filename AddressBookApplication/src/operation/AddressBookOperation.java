@@ -105,7 +105,15 @@ public class AddressBookOperation implements Operation
 		{
 			System.out.println("Please Select Your address book");
 			int select = sc.nextInt();
-			addressKey = addressBook[select-1];
+			try
+			{
+				addressKey = addressBook[select-1];
+			}
+			catch(ArrayIndexOutOfBoundsException e)
+			{
+				System.out.println("Please select correct addressbook ");
+				continue;
+			}
 			sc.nextLine();
 			
 			if (map.get(addressKey)!=null)
@@ -183,10 +191,23 @@ public class AddressBookOperation implements Operation
 				System.out.println("Please enter valid Last Name");
 			}
 		}
-
-		System.out.println("Enter your Address");
-		String address = sc.nextLine();
-		person.setAddress(address);
+		
+		int addressCheck=0;
+		while (addressCheck==0)
+		{
+			System.out.println("Enter your Address");
+			String address = sc.nextLine();
+			if(Pattern.matches("([a-zA-Z0-9]+(\\s[a-zA-Z]+)*)", address))
+			{
+				person.setAddress(address);
+				addressCheck=1;
+			}
+			else
+			{
+				System.out.println("You didn't entered valid address");
+				System.out.println("Please enter valid address");
+			}
+		}
 		
 		int cityCheck=0;
 		while(cityCheck==0)
@@ -322,9 +343,22 @@ public class AddressBookOperation implements Operation
 					switch (ch) 
 					{
 						case 1:
-							System.out.println("Enter your Address");
-							String address = sc.nextLine();
-							persondetails.setAddress(address);
+							int addressCheck=0;
+							while (addressCheck==0)
+							{
+								System.out.println("Enter your Address");
+								String address = sc.nextLine();
+								if(Pattern.matches("([a-zA-Z0-9]+(\\s[a-zA-Z]+)*)", address))
+								{
+									persondetails.setAddress(address);
+									addressCheck=1;
+								}
+								else
+								{
+									System.out.println("You didn't entered valid address");
+									System.out.println("Please enter valid address");
+								}
+							}
 							fileWriter();
 							System.out.println("Address Updated");
 							break;
